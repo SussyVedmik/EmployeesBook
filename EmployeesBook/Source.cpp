@@ -12,6 +12,41 @@ struct employee {
 
 const int MAX_EMPLOYEES = 1000;
 
+void fromFile(employee employees[], int& count) {
+
+    setlocale(LC_ALL, "Russian");
+
+    ifstream file("employees.txt");
+    if (!file) {
+        cout << "מרטבךא, פאיכא םוע" << endl;
+        return;
+    }
+
+    count = 0;
+    while (file >> employees[count].firstName >> employees[count].lastName >> employees[count].phoneNumber >> employees[count].salary) {
+        count++;
+    }
+
+    file.close();
+}
+
+void toFile(employee employees[], int count) {
+
+    setlocale(LC_ALL, "Russian");
+
+    ofstream file("employees.txt");
+    if (!file) {
+        cout << "םוע פאיכא\n" << endl;
+        return;
+    }
+
+    for (int i = 0; i < count; i++) {
+        file << employees[i].firstName << " " << employees[i].lastName << " " << employees[i].phoneNumber << " " << employees[i].salary << endl;
+    }
+
+    file.close();
+}
+
 int main() {
     employee employees[MAX_EMPLOYEES];
     int employeeCount = 0;
