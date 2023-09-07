@@ -47,6 +47,125 @@ void toFile(employee employees[], int count) {
     file.close();
 }
 
+void displayEmployees(employee employees[], int count) {
+
+    setlocale(LC_ALL, "Russian");
+
+    for (int i = 0; i < count; i++) {
+        cout << "Имя: " << employees[i].firstName << endl;
+        cout << "Фамилия: " << employees[i].lastName << endl;
+        cout << "Телефонный номер: " << employees[i].phoneNumber << endl;
+        cout << "Заработная плата: " << employees[i].salary << endl;
+        cout << endl;
+    }
+}
+
+void searchByLastName(employee employees[], int count, const char* lastName) {
+
+    setlocale(LC_ALL, "Russian");
+
+    bool found = false;
+    for (int i = 0; i < count; i++) {
+        if (strcmp(employees[i].lastName, lastName) == 0) {
+            cout << "Имя: " << employees[i].firstName << endl;
+            cout << "Фамилия: " << employees[i].lastName << endl;
+            cout << "Телефонный номер: " << employees[i].phoneNumber << endl;
+            cout << "Заработная плата: " << employees[i].salary << endl;
+            cout << endl;
+            found = true;
+        }
+    }
+
+    if (!found) {
+        cout << "Сотрудник с фамилией " << lastName << " не найден." << endl;
+    }
+}
+
+void searchBySal(employee employees[], int count, double minSalary, double maxSalary) {
+
+    setlocale(LC_ALL, "Russian");
+
+    bool found = false;
+    for (int i = 0; i < count; i++) {
+        if (employees[i].salary >= minSalary && employees[i].salary <= maxSalary) {
+            cout << "Имя: " << employees[i].firstName << endl;
+            cout << "Фамилия: " << employees[i].lastName << endl;
+            cout << "Телефонный номер: " << employees[i].phoneNumber << endl;
+            cout << "Заработная плата: " << employees[i].salary << endl;
+            cout << endl;
+            found = true;
+        }
+    }
+
+    if (!found) {
+        cout << "Сотрудники с зп в диапазоне от " << minSalary << " до " << maxSalary << " не найдены" << endl;
+    }
+}
+
+void sortEmpLastName(employee employees[], int count) {
+
+    setlocale(LC_ALL, "Russian");
+
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
+            if (strcmp(employees[j].lastName, employees[j + 1].lastName) > 0) {
+                employee buf = employees[j];
+                employees[j] = employees[j + 1];
+                employees[j + 1] = buf;
+            }
+        }
+    }
+}
+
+void addEmployee(employee employees[], int& count) {
+
+    setlocale(LC_ALL, "Russian");
+
+    if (count >= MAX_EMPLOYEES) {
+        cout << "Уже максимальное количество сотрудников" << endl;
+        return;
+    }
+
+    cout << "Введите имя нового сотрудника: ";
+    cin >> employees[count].firstName;
+    cout << "Введите фамилию нового сотрудника: ";
+    cin >> employees[count].lastName;
+    cout << "Введите телефонный номер нового сотрудника: ";
+    cin >> employees[count].phoneNumber;
+    cout << "Введите заработную плату нового сотрудника: ";
+    cin >> employees[count].salary;
+
+    count++;
+}
+
+void removeEmployee(employee employees[], int& count) {
+
+    setlocale(LC_ALL, "Russian");
+
+    char lastName[50];
+    cout << "Введите фамилию сотрудника для удаления: ";
+    cin >> lastName;
+
+    int num = -1;
+    for (int i = 0; i < count; i++) {
+        if (strcmp(employees[i].lastName, lastName) == 0) {
+            num = i;
+            break;
+        }
+    }
+
+    if (num == -1) {
+        cout << "Сотрудник с фамилией " << lastName << " не найден" << endl;
+    }
+    else {
+        for (int i = num; i < count - 1; i++) {
+            employees[i] = employees[i + 1];
+        }
+        count--;
+        cout << "Сотрудник удален" << endl;
+    }
+}
+
 int main() {
     employee employees[MAX_EMPLOYEES];
     int employeeCount = 0;
